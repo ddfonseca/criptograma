@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Criptograma com Símbolos</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				margin: 50px;
+			}
+			input,
+			textarea {
+				width: 100%;
+				margin: 10px 0;
+				padding: 10px;
+			}
+			textarea {
+				height: 150px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Criptograma com Símbolos</h1>
+		<p>Digite o texto abaixo e veja-o criptografado com símbolos:</p>
+
+		<input type="text" id="inputText" placeholder="Digite seu texto aqui" oninput="encryptText()" />
+		<textarea id="outputText" placeholder="Texto criptografado aparecerá aqui" readonly></textarea>
+
+		<script>
+			// Define uma lista de símbolos para substituir as letras
+			const symbols = ["♠", "♥", "♦", "♣", "♪", "♫", "★", "☼", "☀", "✿", "⚽", "♬", "☯"];
+
+			// Função para gerar o dicionário de substituição
+			function generateSubstitutionDict() {
+				const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				const substitutionDict = {};
+
+				// Gera a substituição aleatória para cada letra
+				for (let letter of alphabet) {
+					substitutionDict[letter] = symbols[Math.floor(Math.random() * symbols.length)];
+				}
+				return substitutionDict;
+			}
+
+			// Gera o dicionário de substituição uma única vez
+			const substitutionDict = generateSubstitutionDict();
+
+			// Função para criptografar o texto
+			function encryptText() {
+				const input = document.getElementById("inputText").value.toUpperCase();
+				let encryptedText = "";
+
+				for (let char of input) {
+					if (substitutionDict[char]) {
+						encryptedText += substitutionDict[char];
+					} else {
+						encryptedText += char; // Mantém espaços e pontuações
+					}
+				}
+
+				// Atualiza o textarea com o texto criptografado
+				document.getElementById("outputText").value = encryptedText;
+			}
+		</script>
+	</body>
+</html>
