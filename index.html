@@ -18,6 +18,17 @@
 			textarea {
 				height: 150px;
 			}
+			.legend {
+				margin-top: 20px;
+				padding: 10px;
+				border: 1px solid #ccc;
+				background-color: #f9f9f9;
+			}
+			.legend-item {
+				font-family: monospace;
+				display: inline-block;
+				margin-right: 10px;
+			}
 		</style>
 	</head>
 	<body>
@@ -27,24 +38,67 @@
 		<input type="text" id="inputText" placeholder="Digite seu texto aqui" oninput="encryptText()" />
 		<textarea id="outputText" placeholder="Texto criptografado aparecerá aqui" readonly></textarea>
 
+		<h2>Legenda:</h2>
+		<div id="legend" class="legend"></div>
+
 		<script>
-			// Define uma lista de símbolos para substituir as letras
-			const symbols = ["♠", "♥", "♦", "♣", "♪", "♫", "★", "☼", "☀", "✿", "⚽", "♬", "☯"];
+			// Define uma lista de símbolos com 26 itens para cada letra do alfabeto
+			const symbols = [
+				"♠",
+				"♥",
+				"♦",
+				"♣",
+				"♪",
+				"♫",
+				"★",
+				"☼",
+				"☀",
+				"✿",
+				"⚽",
+				"♬",
+				"☯",
+				"❀",
+				"☁",
+				"✪",
+				"✈",
+				"✌",
+				"❉",
+				"☘",
+				"☾",
+				"⚡",
+				"✧",
+				"❦",
+				"❧",
+				"⚓",
+			];
 
 			// Função para gerar o dicionário de substituição
 			function generateSubstitutionDict() {
-				const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+				const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÇ";
 				const substitutionDict = {};
 
-				// Gera a substituição aleatória para cada letra
-				for (let letter of alphabet) {
-					substitutionDict[letter] = symbols[Math.floor(Math.random() * symbols.length)];
+				// Associa cada letra a um símbolo único
+				for (let i = 0; i < alphabet.length; i++) {
+					substitutionDict[alphabet[i]] = symbols[i];
 				}
 				return substitutionDict;
 			}
 
 			// Gera o dicionário de substituição uma única vez
 			const substitutionDict = generateSubstitutionDict();
+
+			// Função para gerar a legenda (letras e seus símbolos)
+			function generateLegend() {
+				const legendDiv = document.getElementById("legend");
+				legendDiv.innerHTML = ""; // Limpa a legenda anterior
+
+				for (const [letter, symbol] of Object.entries(substitutionDict)) {
+					const legendItem = document.createElement("span");
+					legendItem.classList.add("legend-item");
+					legendItem.textContent = `${letter}: ${symbol}`;
+					legendDiv.appendChild(legendItem);
+				}
+			}
 
 			// Função para criptografar o texto
 			function encryptText() {
@@ -59,9 +113,14 @@
 					}
 				}
 
-				// Atualiza o textarea com o texto criptografado
+				// Atualiza o textarea e o div com o texto criptografado
 				document.getElementById("outputText").value = encryptedText;
 			}
+
+			// Gera a legenda ao carregar a página
+			window.onload = function () {
+				generateLegend();
+			};
 		</script>
 	</body>
 </html>
