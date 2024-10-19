@@ -42,7 +42,7 @@
 		<div id="legend" class="legend"></div>
 
 		<script>
-			// Define uma lista de símbolos com 26 itens para cada letra do alfabeto
+			// Define uma lista de símbolos com 38 itens para cada letra do alfabeto, incluindo acentos
 			const symbols = [
 				"♠",
 				"♥",
@@ -70,11 +70,25 @@
 				"❦",
 				"❧",
 				"⚓",
+				"✩",
+				"✯",
+				"✰",
+				"✮",
+				"✣",
+				"✤",
+				"✥",
+				"✦",
+				"✧",
+				"✩",
+				"✪",
+				"✫",
+				"✬",
+				"✭",
 			];
 
 			// Função para gerar o dicionário de substituição
 			function generateSubstitutionDict() {
-				const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÇ";
+				const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZÇÁÀÃÂÉÊÍÓÒÕÔÚÜ";
 				const substitutionDict = {};
 
 				// Associa cada letra a um símbolo único
@@ -100,9 +114,33 @@
 				}
 			}
 
+			// Função para normalizar o texto (remove acentos)
+			function normalizeText(text) {
+				const accentsMap = {
+					Á: "A",
+					À: "A",
+					Ã: "A",
+					Â: "A",
+					É: "E",
+					Ê: "E",
+					Í: "I",
+					Ó: "O",
+					Ò: "O",
+					Õ: "O",
+					Ô: "O",
+					Ú: "U",
+					Ü: "U",
+					Ç: "C",
+				};
+				return text
+					.split("")
+					.map((char) => accentsMap[char] || char)
+					.join("");
+			}
+
 			// Função para criptografar o texto
 			function encryptText() {
-				const input = document.getElementById("inputText").value.toUpperCase();
+				const input = normalizeText(document.getElementById("inputText").value.toUpperCase());
 				let encryptedText = "";
 
 				for (let char of input) {
